@@ -1,8 +1,5 @@
 <?php
 
-use BaconQrCode\Renderer\Eye\PointyEye;
-use BaconQrCode\Renderer\Eye\SimpleCircleEye;
-use BaconQrCode\Renderer\Eye\SquareEye;
 use BaconQrCode\Renderer\Image\EpsImageBackEnd;
 use BaconQrCode\Renderer\Image\ImagickImageBackEnd;
 use BaconQrCode\Renderer\Image\SvgImageBackEnd;
@@ -12,7 +9,6 @@ use BaconQrCode\Renderer\Module\SquareModule;
 use BaconQrCode\Renderer\RendererStyle\Gradient;
 use BaconQrCode\Renderer\RendererStyle\RendererStyle;
 use PHPUnit\Framework\TestCase;
-use SimpleSoftwareIO\QrCode\CustomEyes\RoundedSquareEye;
 use SimpleSoftwareIO\QrCode\Generator;
 
 class GeneratorTest extends TestCase

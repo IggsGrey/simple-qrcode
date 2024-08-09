@@ -1,10 +1,10 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace SimpleSoftwareIO\QrCode\CustomEyes;
 
-use BaconQrCode\Renderer\Path\Path;
 use BaconQrCode\Renderer\Eye\EyeInterface;
+use BaconQrCode\Renderer\Path\Path;
 
 /**
  * Renders the eyes with a rounded square shape.
@@ -17,12 +17,12 @@ final class RoundedSquareEye implements EyeInterface
     {
     }
 
-    public static function instance() : self
+    public static function instance(): self
     {
         return self::$instance ?: self::$instance = new self();
     }
 
-    public function getExternalPath() : Path
+    public function getExternalPath(): Path
     {
         $outerSize = 3.5;
         $outerMidPoint = 1.0;
@@ -63,7 +63,7 @@ final class RoundedSquareEye implements EyeInterface
     }
 
 
-    public function getInternalPath() : Path
+    public function getInternalPath(): Path
     {
         $size = 1.5;
         $midPoint = 0.75;

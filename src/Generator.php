@@ -8,13 +8,12 @@ use BaconQrCode\Exception\WriterException;
 use BaconQrCode\Renderer\Color\Alpha;
 use BaconQrCode\Renderer\Color\ColorInterface;
 use BaconQrCode\Renderer\Color\Rgb;
+use BaconQrCode\Renderer\Eye\CompositeEye;
 use BaconQrCode\Renderer\Eye\EyeInterface;
 use BaconQrCode\Renderer\Eye\ModuleEye;
+use BaconQrCode\Renderer\Eye\PointyEye;
 use BaconQrCode\Renderer\Eye\SimpleCircleEye;
 use BaconQrCode\Renderer\Eye\SquareEye;
-use BaconQrCode\Renderer\Eye\CompositeEye;
-use BaconQrCode\Renderer\Eye\PointyEye;
-use SimpleSoftwareIO\QrCode\CustomEyes\RoundedSquareEye;
 use BaconQrCode\Renderer\Image\EpsImageBackEnd;
 use BaconQrCode\Renderer\Image\ImageBackEndInterface;
 use BaconQrCode\Renderer\Image\ImagickImageBackEnd;
@@ -32,6 +31,7 @@ use BaconQrCode\Renderer\RendererStyle\RendererStyle;
 use BaconQrCode\Writer;
 use BadMethodCallException;
 use InvalidArgumentException;
+use SimpleSoftwareIO\QrCode\CustomEyes\RoundedSquareEye;
 use SimpleSoftwareIO\QrCode\DataTypes\DataTypeInterface;
 
 class Generator
