@@ -12,6 +12,8 @@ use BaconQrCode\Renderer\Eye\EyeInterface;
 use BaconQrCode\Renderer\Eye\ModuleEye;
 use BaconQrCode\Renderer\Eye\SimpleCircleEye;
 use BaconQrCode\Renderer\Eye\SquareEye;
+use BaconQrCode\Renderer\Eye\CompositeEye;
+use BaconQrCode\Renderer\Eye\PointyEye;
 use SimpleSoftwareIO\QrCode\CustomEyes\RoundedSquareEye;
 use BaconQrCode\Renderer\Image\EpsImageBackEnd;
 use BaconQrCode\Renderer\Image\ImageBackEndInterface;
@@ -95,12 +97,20 @@ class Generator
     protected $styleSize = null;
 
     /**
-     * The style to apply to the eye.
+     * The style to apply to the internal eye.
      * Possible values are circle, square and rounded.
      *
      * @var string|null
      */
     protected $eyeStyle = null;
+
+    /**
+     * The style to apply to the external eye.
+     * Possible values are circle, square, pointy and rounded.
+     *
+     * @var string|null
+     */
+    protected $externalEyeStyle = null;
 
     /**
      * The foreground color of the QrCode.
@@ -345,6 +355,24 @@ class Generator
     }
 
     /**
+     * Sets the external eye style.
+     *
+     * @param string $style
+     * @return Generator
+     * @throws InvalidArgumentException
+     */
+    public function externalEye(string $style): self
+    {
+        if (! in_array($style, ['square', 'circle', 'pointy', 'rounded'])) {
+            throw new InvalidArgumentException("\$style must be square, rounded, pointy or circle. {$style} is not a valid eye style.");
+        }
+
+        $this->externalEyeStyle = $style;
+
+        return $this;
+    }
+
+    /**
      * Sets the style of the blocks for the QrCode.
      *
      * @param string $style
@@ -497,19 +525,41 @@ class Generator
      */
     public function getEye(): EyeInterface
     {
+        // defaults
+        $internalEye = new ModuleEye($this->getModule());
+        $externalEye = new ModuleEye($this->getModule());
+
+        // external eye
+        if ($this->externalEyeStyle === 'square') {
+            $externalEye = SquareEye::instance();
+        }
+
+        if ($this->externalEyeStyle === 'circle') {
+            $externalEye = SimpleCircleEye::instance();
+        }
+
+        if ($this->externalEyeStyle === 'pointy') {
+            $externalEye = PointyEye::instance();
+        }
+
+        if ($this->externalEyeStyle === 'rounded') {
+            $externalEye = RoundedSquareEye::instance();
+        }
+
+        // internal eye
         if ($this->eyeStyle === 'square') {
-            return SquareEye::instance();
+            $internalEye = SquareEye::instance();
         }
 
         if ($this->eyeStyle === 'circle') {
-            return SimpleCircleEye::instance();
+            $internalEye = SimpleCircleEye::instance();
         }
 
         if ($this->eyeStyle === 'rounded') {
-            return RoundedSquareEye::instance();
+            $internalEye = RoundedSquareEye::instance();
         }
 
-        return new ModuleEye($this->getModule());
+        return new CompositeEye($externalEye, $internalEye);
     }
 
     /**
