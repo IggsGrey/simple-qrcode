@@ -12,6 +12,7 @@ use BaconQrCode\Renderer\Eye\EyeInterface;
 use BaconQrCode\Renderer\Eye\ModuleEye;
 use BaconQrCode\Renderer\Eye\SimpleCircleEye;
 use BaconQrCode\Renderer\Eye\SquareEye;
+use SimpleSoftwareIO\QrCode\CustomEyes\RoundedSquareEye;
 use BaconQrCode\Renderer\Image\EpsImageBackEnd;
 use BaconQrCode\Renderer\Image\ImageBackEndInterface;
 use BaconQrCode\Renderer\Image\ImagickImageBackEnd;
@@ -95,7 +96,7 @@ class Generator
 
     /**
      * The style to apply to the eye.
-     * Possible values are circle and square.
+     * Possible values are circle, square and rounded.
      *
      * @var string|null
      */
@@ -334,8 +335,8 @@ class Generator
      */
     public function eye(string $style): self
     {
-        if (! in_array($style, ['square', 'circle'])) {
-            throw new InvalidArgumentException("\$style must be square or circle. {$style} is not a valid eye style.");
+        if (! in_array($style, ['square', 'circle', 'rounded'])) {
+            throw new InvalidArgumentException("\$style must be square, rounded or circle. {$style} is not a valid eye style.");
         }
 
         $this->eyeStyle = $style;
@@ -502,6 +503,10 @@ class Generator
 
         if ($this->eyeStyle === 'circle') {
             return SimpleCircleEye::instance();
+        }
+
+        if ($this->eyeStyle === 'rounded') {
+            return RoundedSquareEye::instance();
         }
 
         return new ModuleEye($this->getModule());
