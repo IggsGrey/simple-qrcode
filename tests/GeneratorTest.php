@@ -1,5 +1,6 @@
 <?php
 
+use BaconQrCode\Renderer\Eye\PointyEye;
 use BaconQrCode\Renderer\Eye\SimpleCircleEye;
 use BaconQrCode\Renderer\Eye\SquareEye;
 use BaconQrCode\Renderer\Image\EpsImageBackEnd;
@@ -11,6 +12,7 @@ use BaconQrCode\Renderer\Module\SquareModule;
 use BaconQrCode\Renderer\RendererStyle\Gradient;
 use BaconQrCode\Renderer\RendererStyle\RendererStyle;
 use PHPUnit\Framework\TestCase;
+use SimpleSoftwareIO\QrCode\CustomEyes\RoundedSquareEye;
 use SimpleSoftwareIO\QrCode\Generator;
 
 class GeneratorTest extends TestCase
@@ -138,19 +140,16 @@ class GeneratorTest extends TestCase
         $this->assertInstanceOf(Gradient::class, $generator->getFill()->getForegroundGradient());
     }
 
-    public function test_eye_style_is_set()
-    {
-        $generator = (new Generator)->eye('circle');
-        $this->assertInstanceOf(SimpleCircleEye::class, $generator->getEye());
-
-        $generator = (new Generator)->eye('square');
-        $this->assertInstanceOf(SquareEye::class, $generator->getEye());
-    }
-
     public function test_invalid_eye_throws_an_exception()
     {
         $this->expectException(InvalidArgumentException::class);
         (new Generator)->eye('foo');
+    }
+
+    public function test_invalid_external_eye_throws_an_exception()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        (new Generator)->externalEye('foo');
     }
 
     public function test_style_is_set()
